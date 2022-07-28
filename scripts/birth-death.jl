@@ -1,13 +1,15 @@
 using DrWatson, Revise
 @quickactivate
 
+includet(srcdir("non-parametric.jl"))
+
 using BridgeEstimators
-using Plots; gr(dpi = 500)
+using LaTeXStrings, Plots; gr(dpi = 500)
 
 isgrowing(x; δ = 10) = x[end] > x[1] + δ
 
-
-η = [.95e-1, 1.e-1]
+λ, μ = .95e-1, 1.e-1
+η = [λ, μ]
 X₀ = 10
 P = BirthDeathProcess(η, X₀)
 
@@ -15,6 +17,8 @@ paths = sample(100, P, 1., 100)
 isdangerous = vec(mapslices(isgrowing, paths.values; dims = 1))
 dangerous = subsample(paths, isdangerous)
 mild = subsample(paths, .!isdangerous)
+
+Rt(paths)
 
 # Sample paths, with dangerous ones highlighted
 plot(
@@ -32,6 +36,11 @@ plot!(
     linewidth = 2
 )
 savefig(plotsdir("BD-paths"))
+
+plot(Rt(mild; window_length = 10); legend = false, color = :gray, alpha = .5, label = false, ylims = (.6, 1.3))
+plot!(Rt(dangerous; window_length = 10); legend = false, color = :orange, label = false, linewidth = 2)
+hline!([λ/μ], label = "True " * L"R_0", color = :blue, linewidth = 2, legend = :bottomright)
+savefig(plotsdir("BD-Rt"))
 
 
 # Compared likelihood functions for process and bridge

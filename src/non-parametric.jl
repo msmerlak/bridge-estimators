@@ -1,5 +1,7 @@
+import BridgeEstimators.RegularObservations
+
 function Rt(X::RegularObservations; window_length = 5)
-    [   mean(X.values[t - window_length::t])/mean(X.values[t - 1 - window_length:t-1])     
-        for t in 1:X.n
+    [   mean(X.values[i - window_length:i, j])/mean(X.values[i - 1 - window_length:i-1, j])     
+        for i in window_length + 2:size(X.values, 1), j in 1:size(X.values, 2)
     ]
 end
