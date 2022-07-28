@@ -1,0 +1,9 @@
+name = "BridgeEstimators"
+uuid = "3597eec8-2928-4de5-bbbf-265bfaf21cb1"
+authors = ["Matteo Smerlak <matteo.smerlak@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Bridge = "2d3116d5-4b8f-5680-861c-71f149790274"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+SimpleBirthDeathProcess = "2ac92d90-7331-11e9-34ef-bd49292af6df"
